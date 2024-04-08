@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS car_owner;
+
+DROP TABLE IF EXISTS cars;
+
+DROP TABLE IF EXISTS owners;

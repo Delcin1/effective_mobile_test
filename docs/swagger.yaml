@@ -1,0 +1,324 @@
+definitions:
+  internal_http-server_handlers_car_delete.Response:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  internal_http-server_handlers_car_save.Response:
+    properties:
+      cars_ids:
+        items:
+          type: integer
+        type: array
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  internal_http-server_handlers_car_update.Response:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  internal_http-server_handlers_owner_delete.Response:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  internal_http-server_handlers_owner_save.Response:
+    properties:
+      error:
+        type: string
+      owner_id:
+        type: integer
+      status:
+        type: string
+    type: object
+  internal_http-server_handlers_owner_update.Response:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  postgres.Car:
+    properties:
+      mark:
+        type: string
+      model:
+        type: string
+      owner:
+        $ref: '#/definitions/postgres.Owner'
+      regNum:
+        type: string
+      year:
+        type: integer
+    type: object
+  postgres.Owner:
+    properties:
+      name:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+  search.Response:
+    properties:
+      cars:
+        items:
+          $ref: '#/definitions/postgres.Car'
+        type: array
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+info:
+  contact:
+    email: naklz9@mail.ru
+    name: Nikita Zhirnov
+    url: https://t.me/belkindelcin
+  description: API for Effective Mobile Test
+  termsOfService: http://swagger.io/terms/
+  title: Cars Catalog API
+  version: "1.0"
+paths:
+  /car/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete car by carId
+      parameters:
+      - description: CarId
+        in: body
+        name: carId
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_car_delete.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete car
+      tags:
+      - Car
+  /car/save:
+    post:
+      consumes:
+      - application/json
+      description: Save a new car by regNums
+      parameters:
+      - description: RegNums
+        in: body
+        name: regNums
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_car_save.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save a new car
+      tags:
+      - Car
+  /car/search:
+    get:
+      consumes:
+      - application/json
+      description: Search cars by search request
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/search.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Search cars
+      tags:
+      - Car
+  /car/update:
+    put:
+      consumes:
+      - application/json
+      description: Update car by carId and new data
+      parameters:
+      - description: RegNum
+        in: body
+        name: regNum
+        required: true
+        schema:
+          type: string
+      - description: Mark
+        in: body
+        name: mark
+        schema:
+          type: string
+      - description: Model
+        in: body
+        name: model
+        schema:
+          type: string
+      - description: Year
+        in: body
+        name: year
+        schema:
+          type: integer
+      - description: Owner
+        in: body
+        name: owner
+        schema:
+          $ref: '#/definitions/postgres.Owner'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_car_update.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update car
+      tags:
+      - Car
+  /owner/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Delete owner by ownerId
+      parameters:
+      - description: OwnerId
+        in: body
+        name: ownerId
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_owner_delete.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Delete owner
+      tags:
+      - Owner
+  /owner/save:
+    post:
+      consumes:
+      - application/json
+      description: Save a new owner by name, surname, patronymic
+      parameters:
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Surname
+        in: body
+        name: surname
+        required: true
+        schema:
+          type: string
+      - description: Patronymic
+        in: body
+        name: patronymic
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_owner_save.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Save a new owner
+      tags:
+      - Owner
+  /owner/update:
+    put:
+      consumes:
+      - application/json
+      description: Update owner by ownerId and new data
+      parameters:
+      - description: OwnerId
+        in: body
+        name: ownerId
+        required: true
+        schema:
+          type: integer
+      - description: Name
+        in: body
+        name: name
+        schema:
+          type: string
+      - description: Surname
+        in: body
+        name: surname
+        schema:
+          type: string
+      - description: Patronymic
+        in: body
+        name: patronymic
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal_http-server_handlers_owner_update.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Update owner
+      tags:
+      - Owner
+swagger: "2.0"
